@@ -23,14 +23,18 @@ body {
     font-size: large;
 }
 
-#screen-re1 .re1-dropdown-row * {
+.dropdown-row * {
     margin: 10px;
 }
 
-#screen-re1 .re1-dropdown-row {
+.dropdown-row {
     align-items: center;
 }
 
-#screen-re1 table tr,  #screen-re1 table td {
+.hidden-column-menu table tr,  .hidden-column-menu table td {
     padding: 5px;
+}
+
+.hidden-column-menu table {
+    margin: 10px;
 }
