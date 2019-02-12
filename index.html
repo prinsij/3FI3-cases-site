@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tickers of the OverWorld</title>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="screen-case-select" class="hidden-column-menu">
+        <h1>Select a 3FI3 Case</h1>
+        <select title="select case" id="case-select">
+            <option value="none">Select a Case</option>
+            <option value="re1">Equity RE1</option>
+            <option value="re2">Equity RE2</option>
+        </select>
+    </div>
+    <div id="screen-re1" class="hidden-column-menu">
+        <h2>ABC Corporation</h2>
+        <div style="display: flex; flex-direction: row" class="re1-dropdown-row">
+            <select title="re1 abc not phase 1" id="re1-abc-not-phase1-event">
+                <option value="none">...</option>
+                <option value="x">Not X</option>
+                <option value="y">Not Y</option>
+                <option value="z">Not Z</option>
+            </select>
+            <select title="re1 abc not phase 2" id="re1-abc-not-phase2-event">
+                <option value="none">...</option>
+                <option value="x">Not X</option>
+                <option value="y">Not Y</option>
+                <option value="z">Not Z</option>
+            </select>
+            <div>>>></div>
+            <select title="re1 abc phase 1" id="re1-abc-phase1-event">
+                <option value="none">...</option>
+                <option value="x">X</option>
+                <option value="y">Y</option>
+                <option value="z">Z</option>
+            </select>
+        </div>
+        <div style="display: flex; flex-direction: row">
+            <table id="re1-abc-payout-table">
+                <tr>
+                    <td></td>
+                    <td>X</td>
+                    <td>Y</td>
+                    <td>Z</td>
+                </tr>
+                <tr>
+                    <td>X</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Y</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Z</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <h2>CRA Corporation</h2>
+        <div style="display: flex; flex-direction: row" class="re1-dropdown-row">
+            <select title="re1 cra not phase 1" id="re1-cra-not-phase1-event">
+                <option value="none">...</option>
+                <option value="w">Not W</option>
+                <option value="x">Not X</option>
+                <option value="y">Not Y</option>
+                <option value="z">Not Z</option>
+            </select>
+            <select title="re1 cra not phase 2" id="re1-cra-not-phase2-event">
+                <option value="none">...</option>
+                <option value="w">Not W</option>
+                <option value="x">Not X</option>
+                <option value="y">Not Y</option>
+                <option value="z">Not Z</option>
+            </select>
+            <div>>>></div>
+            <select title="re1 cra phase 1" id="re1-cra-phase1-event">
+                <option value="none">...</option>
+                <option value="w">W</option>
+                <option value="x">X</option>
+                <option value="y">Y</option>
+                <option value="z">Z</option>
+            </select>
+        </div>
+        <div style="display: flex; flex-direction: row">
+            <table id="re1-cra-payout-table">
+                <tr>
+                    <td></td>
+                    <td>W</td>
+                    <td>X</td>
+                    <td>Y</td>
+                    <td>Z</td>
+                </tr>
+                <tr>
+                    <td>W</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>X</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Y</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Z</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="screen-re2" class="hidden-column-menu">
+    </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+.hidden-column-menu {
+    display: none;
+    flex-direction: column;
+    max-width: 400px;
+    position: center;
+    align-items: center;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+body {
+    height: 95%;
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: large;
+}
+
+#screen-re1 .re1-dropdown-row * {
+    margin: 10px;
+}
+
+#screen-re1 .re1-dropdown-row {
+    align-items: center;
+}
+
+#screen-re1 table tr,  #screen-re1 table td {
+    padding: 5px;
+}
