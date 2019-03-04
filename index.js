@@ -3,6 +3,7 @@ let SCREENS = {
 
     re1: 'screen-re1',
     re2: 'screen-re2',
+    bo2: 'screen-bo2',
 };
 
 let uiState = {
@@ -77,6 +78,12 @@ let re2Payouts = {
     }
 };
 
+let bo2Rates = {
+    period1: 1.04,
+    period2: [1.08, 1.10, 1.12],
+    period3: [1.14, 1.16, 1.18],
+};
+
 function assembleListeners() {
     let caseSelect = document.getElementById('case-select');
     caseSelect.addEventListener('change', function (e) {
@@ -84,6 +91,8 @@ function assembleListeners() {
             transitionState(SCREENS.re1);
         } else if (caseSelect.value === "re2") {
             transitionState(SCREENS.re2);
+        } else if (caseSelect.value === "bo2") {
+            transitionState(SCREENS.bo2);
         }
     });
 
@@ -142,6 +151,48 @@ function assembleListeners() {
             re2SelectPhase1.addEventListener('change', () => updateRe2TableValues(ifirm));
         }
     }
+
+    {
+        let bo2NotP2Select = document.getElementById('bo2-not-period2-rate');
+        let bo2NotP3Select = document.getElementById('bo2-not-period3-rate');
+        let bo2P2Select = document.getElementById('bo2-period2-rate');
+        let bo2P3Select = document.getElementById('bo2-period3-rate');
+        let bo2YearSelect = document.getElementById('bo2-year-select');
+
+        function updateAll(e) {
+            let currYear = bo2YearSelect.selectedIndex;
+            let notP2Rate = bo2NotP2Select.selectedIndex - 1;
+            let notP3Rate = bo2NotP3Select.selectedIndex - 1;
+            let p2Rate = bo2P2Select.selectedIndex - 1;
+            let p3Rate = bo2P3Select.selectedIndex - 1;
+
+            let p2Rates = [0,1,2];
+            let p3Rates = [0,1,2];
+            if (notP2Rate >= 0) {
+                p2Rates.splice(notP2Rate, 1);
+            }
+            if (notP3Rate >= 0) {
+                p3Rates.splice(notP3Rate, 1);
+            }
+            if (p2Rate >= 0) {
+                p2Rates = [p2Rate];
+            }
+            if (p3Rate >= 0) {
+                p3Rates = [p3Rate];
+            }
+
+            updateBo2Zc2Values(currYear, p2Rates);
+            updateBo2Zc3Values(currYear, p2Rates, p3Rates);
+            updateBo2CouponValues(currYear, p2Rates, p3Rates);
+            updateBo2Zc1Values(currYear);
+        }
+
+        bo2YearSelect.addEventListener('change', updateAll);
+        bo2NotP2Select.addEventListener('change', updateAll);
+        bo2NotP3Select.addEventListener('change', updateAll);
+        bo2P2Select.addEventListener('change', updateAll);
+        bo2P3Select.addEventListener('change', updateAll);
+    }
 }
 
 function updateRe1TableValues(firm) {
@@ -168,6 +219,61 @@ function updateRe2TableValues(firm) {
             }
         }
     });
+}
+
+function updateBo2Zc1Values(year) {
+    let ele = document.getElementById('bo2-zc1-price');
+    ele.style.display = year === 0 ? 'block' : 'none';
+}
+
+function updateBo2Zc2Values(year, p2Rates) {
+    let table = document.getElementById('bo2-zc2-price');
+    table.style.display = year > 1 ? 'none' : 'table';
+    let r = 0;
+    for (let row of table.rows) {
+        let ans = year == 0 ? 100 / (bo2Rates.period1 * bo2Rates.period2[r])
+                            : 100 / bo2Rates.period2[r];
+        row.cells[1].innerText = Number(ans).toFixed(3);
+        row.cells[1].style.background = p2Rates.indexOf(r) < 0 ? 'red' : '';
+        r += 1;
+    }
+}
+
+function updateBo2Zc3Values(year, p2Rates, p3Rates) {
+    let table = document.getElementById('bo2-zc3-price');
+    for (let r = 1; r < table.rows.length; r++) {
+        for (let c = 1; c < table.rows[r].cells.length; c++) {
+            let ans = year == 0 ? 100 / (bo2Rates.period1 * bo2Rates.period2[r-1] * bo2Rates.period3[c-1])
+                    : year == 1 ? 100 / (bo2Rates.period2[r-1] * bo2Rates.period3[c-1])
+                                : 100 / bo2Rates.period3[c-1];
+            table.rows[r].cells[c].innerText = Number(ans).toFixed(3);
+            table.rows[r].cells[c].style.background = ''
+            if (p3Rates.indexOf(c-1) < 0 || p2Rates.indexOf(r-1) < 0) {
+                table.rows[r].cells[c].style.background = 'red';
+            }
+        }
+    }
+}
+
+function updateBo2CouponValues(year, p2Rates, p3Rates) {
+    let table = document.getElementById('bo2-coupon-price');
+    for (let r = 1; r < table.rows.length; r++) {
+        for (let c = 1; c < table.rows[r].cells.length; c++) {
+            let face = year == 0 ? 110 / (bo2Rates.period1 * bo2Rates.period2[r-1] * bo2Rates.period3[c-1])
+                     : year == 1 ? 110 / (bo2Rates.period2[r-1] * bo2Rates.period3[c-1])
+                                 : 110 / bo2Rates.period3[c-1];
+            let coupon1 = year == 0 ? 10 / bo2Rates.period1
+                                    : 0;
+            let coupon2 = year == 0 ? 10 / (bo2Rates.period1 * bo2Rates.period2[r-1]) 
+                        : year == 1 ? 10 / (bo2Rates.period2[r-1])
+                                    : 0;
+            table.rows[r].cells[c].innerText = Number(face+coupon1+coupon2).toFixed(3);
+            table.rows[r].cells[c].style.background = ''
+            if (p3Rates.indexOf(c-1) < 0 || p2Rates.indexOf(r-1) < 0) {
+                table.rows[r].cells[c].style.background = 'red';
+            }
+        }
+    }
 }
 
 function tableIter(table, cellCallback) {
@@ -197,6 +303,11 @@ function transitionState(newState) {
         updateRe2TableValues('firm1');
         updateRe2TableValues('firm2');
         updateRe2TableValues('firm3');
+    } else if (newState === SCREENS.bo2) {
+        updateBo2Zc2Values(0, [...Array(3).keys()]);
+        updateBo2Zc3Values(0, [...Array(3).keys()], [...Array(3).keys()]);
+        updateBo2CouponValues(0, [...Array(3).keys()], [...Array(3).keys()]);
+        updateBo2Zc1Values(0);
     }
 }
 
