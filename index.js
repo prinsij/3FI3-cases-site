@@ -4,6 +4,7 @@ let SCREENS = {
     re1: 'screen-re1',
     re2: 'screen-re2',
     bo2: 'screen-bo2',
+    re3: 'screen-re3',
 };
 
 let uiState = {
@@ -78,6 +79,16 @@ let re2Payouts = {
     }
 };
 
+let re3Payout = {
+    callStrike: 30,
+    putStrike: 30,
+    firmPayout: [
+        [0, 20, 40],
+        [0, 25, 45],
+        [0, 35, 60],
+    ],
+};
+
 let bo2Rates = {
     period1: 1.04,
     period2: [1.08, 1.10, 1.12],
@@ -93,6 +104,8 @@ function assembleListeners() {
             transitionState(SCREENS.re2);
         } else if (caseSelect.value === "bo2") {
             transitionState(SCREENS.bo2);
+        } else if (caseSelect.value === "re3") {
+            transitionState(SCREENS.re3);
         }
     });
 
@@ -193,6 +206,38 @@ function assembleListeners() {
         bo2P2Select.addEventListener('change', updateAll);
         bo2P3Select.addEventListener('change', updateAll);
     }
+
+    // re3
+    {
+        for (let firmNum of [1, 2]) {
+            let notP1Select = document.getElementById(`re3-firm${firmNum}-not-phase1-event`);
+            let notP2Select = document.getElementById(`re3-firm${firmNum}-not-phase2-event`);
+            let p1Select = document.getElementById(`re3-firm${firmNum}-phase1-event`);
+            
+            function updateAll(e) {
+                let notP1Event = notP1Select.selectedIndex - 1;
+                let notP2Event = notP2Select.selectedIndex - 1;
+                function spliceOutNonZero(x, arr) {
+                    if (x >= 0) {
+                        arr.splice(x, 1);
+                    }
+                }
+                let p1Events = [0,1,2], p2Events = [0,1,2];
+                spliceOutNonZero(notP1Event, p1Events);
+                spliceOutNonZero(notP2Event, p2Events);
+
+                let p1Event = p1Select.selectedIndex - 1;
+                if (p1Event >= 0) {
+                    p1Events = [p1Event];
+                }
+
+                (firmNum == 1 ? fillRe3F1Tables : fillRe3F2Tables)(p1Events, p2Events);
+            }
+            notP1Select.addEventListener('change', updateAll);
+            notP2Select.addEventListener('change', updateAll);
+            p1Select.addEventListener('change', updateAll);
+        }
+    }
 }
 
 function updateRe1TableValues(firm) {
@@ -276,6 +321,40 @@ function updateBo2CouponValues(year, p2Rates, p3Rates) {
     }
 }
 
+function fillRe3F1Tables(p1Events, p2Events) {
+  tableIter(document.getElementById('re3-firm1-payout-table'), function (x, y, cell) {
+      if (x > 0 && y > 0) {
+          cell.innerText = re3Payout.firmPayout[y-1][x-1];
+          cell.style.background = p1Events.indexOf(y - 1) < 0 
+                               || p2Events.indexOf(x - 1) < 0 ? 'red' : '';
+      }
+  });
+  tableIter(document.getElementById('re3-firm1-call-table'), function (x, y, cell) {
+      if (x > 0 && y > 0) {
+          cell.innerText = Math.max(0, re3Payout.firmPayout[y-1][x-1] - re3Payout.callStrike);
+          cell.style.background = p1Events.indexOf(y - 1) < 0
+                               || p2Events.indexOf(x - 1) < 0 ? 'red' : '';
+      }
+  });
+  tableIter(document.getElementById('re3-firm1-put-table'), function (x, y, cell) {
+      if (x > 0 && y > 0) {
+          cell.innerText = Math.max(0, re3Payout.callStrike - re3Payout.firmPayout[y-1][x-1]);
+          cell.style.background = p1Events.indexOf(y - 1) < 0
+                               || p2Events.indexOf(x - 1) < 0 ? 'red' : '';
+      }
+  });
+}
+
+function fillRe3F2Tables(p1Events, p2Events) {
+  tableIter(document.getElementById('re3-firm2-payout-table'), function (x, y, cell) {
+      if (x > 0 && y > 0) {
+          cell.innerText = re3Payout.firmPayout[y-1][x-1];
+          cell.style.background = p1Events.indexOf(y - 1) < 0
+                               || p2Events.indexOf(x - 1) < 0 ? 'red' : '';
+      }
+  });
+}
+
 function tableIter(table, cellCallback) {
     let x = 0, y = 0;
     for (let row of table.rows) {
@@ -308,6 +387,9 @@ function transitionState(newState) {
         updateBo2Zc3Values(0, [...Array(3).keys()], [...Array(3).keys()]);
         updateBo2CouponValues(0, [...Array(3).keys()], [...Array(3).keys()]);
         updateBo2Zc1Values(0);
+    } else if (newState === SCREENS.re3) {
+        fillRe3F1Tables([0, 1, 2], [0, 1, 2]);
+        fillRe3F2Tables([0, 1, 2], [0, 1, 2]);
     }
 }
 

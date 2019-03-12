@@ -16,6 +16,7 @@
                 <option value="re1">Equity RE1</option>
                 <option value="re2">Equity RE2</option>
                 <option value="bo2">Bonds BO2</option>
+                <option value="re3">Equity RE3</option>
             </optgroup>
         </select>
     </div>
@@ -255,6 +256,101 @@
             <tr><td>10%</td><td></td><td></td><td></td></tr>
             <tr><td>12%</td><td></td><td></td><td></td></tr>
         </table>
+    </div>
+    <div id="screen-re3" class="hidden-column-menu">
+        <h2>Firm 1</h2>
+        <div style="display: flex; flex-direction: row" class="dropdown-row">
+            <select class="form-control" title="re3 firm1 not phase 1" id="re3-firm1-not-phase1-event">
+                <optgroup class="large-font">
+                    <option value="none">...</option>
+                    <option value="x">Not X</option>
+                    <option value="y">Not Y</option>
+                    <option value="z">Not Z</option>
+                </optgroup>
+            </select>
+            <select class="form-control" title="re3 firm1 not phase 2" id="re3-firm1-not-phase2-event">
+                <optgroup class="large-font">
+                    <option value="none">...</option>
+                    <option value="x">Not X</option>
+                    <option value="y">Not Y</option>
+                    <option value="z">Not Z</option>
+                </optgroup>
+            </select>
+            <div>>>></div>
+            <select class="form-control" title="re3 firm1 phase 1" id="re3-firm1-phase1-event">
+                <optgroup class="large-font">
+                    <option value="none">...</option>
+                    <option value="x">X</option>
+                    <option value="y">Y</option>
+                    <option value="z">Z</option>
+                </optgroup>
+            </select>
+        </div>
+        <div style="display: flex; flex-direction: row">
+            <div style="display: flex; flex-direction: column; align-items: center">
+                <h4>Stock</h4>
+                <table class=".table-bordered" id="re3-firm1-payout-table">
+                    <tr><td></td><td>X</td><td>Y</td><td>Z</td></tr>
+                    <tr><td>X</td><td></td><td></td><td></td></tr>
+                    <tr><td>Y</td><td></td><td></td><td></td></tr>
+                    <tr><td>Z</td><td></td><td></td><td></td></tr>
+                </table>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center">
+                <h4>Call Option</h4>
+                <table class=".table-bordered" id="re3-firm1-call-table">
+                    <tr><td></td><td>X</td><td>Y</td><td>Z</td></tr>
+                    <tr><td>X</td><td></td><td></td><td></td></tr>
+                    <tr><td>Y</td><td></td><td></td><td></td></tr>
+                    <tr><td>Z</td><td></td><td></td><td></td></tr>
+                </table>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center">
+                <h4>Put Option</h4>
+                <table class=".table-bordered" id="re3-firm1-put-table">
+                    <tr><td></td><td>X</td><td>Y</td><td>Z</td></tr>
+                    <tr><td>X</td><td></td><td></td><td></td></tr>
+                    <tr><td>Y</td><td></td><td></td><td></td></tr>
+                    <tr><td>Z</td><td></td><td></td><td></td></tr>
+                </table>
+            </div>
+        </div>
+        <h2>Firm 2</h2>
+        <div style="display: flex; flex-direction: row" class="dropdown-row">
+            <select class="form-control" title="re3 firm2 not phase 1" id="re3-firm2-not-phase1-event">
+                <optgroup class="large-font">
+                    <option value="none">...</option>
+                    <option value="x">Not X</option>
+                    <option value="y">Not Y</option>
+                    <option value="z">Not Z</option>
+                </optgroup>
+            </select>
+            <select class="form-control" title="re3 firm2 not phase 2" id="re3-firm2-not-phase2-event">
+                <optgroup class="large-font">
+                    <option value="none">...</option>
+                    <option value="x">Not X</option>
+                    <option value="y">Not Y</option>
+                    <option value="z">Not Z</option>
+                </optgroup>
+            </select>
+            <div>>>></div>
+            <select class="form-control" title="re3 firm2 phase 1" id="re3-firm2-phase1-event">
+                <optgroup class="large-font">
+                    <option value="none">...</option>
+                    <option value="x">X</option>
+                    <option value="y">Y</option>
+                    <option value="z">Z</option>
+                </optgroup>
+            </select>
+        </div>
+        <div style="display: flex; flex-direction: row">
+            <table class=".table-bordered" id="re3-firm2-payout-table">
+                <tr><td></td><td>X</td><td>Y</td><td>Z</td></tr>
+                <tr><td>X</td><td></td><td></td><td></td></tr>
+                <tr><td>Y</td><td></td><td></td><td></td></tr>
+                <tr><td>Z</td><td></td><td></td><td></td></tr>
+            </table>
+        </div>
     </div>
 </body>
 </html>
