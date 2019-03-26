@@ -5,6 +5,7 @@ let SCREENS = {
     re2: 'screen-re2',
     bo2: 'screen-bo2',
     re3: 'screen-re3',
+    op2: 'screen-op2',
 };
 
 let uiState = {
@@ -98,14 +99,8 @@ let bo2Rates = {
 function assembleListeners() {
     let caseSelect = document.getElementById('case-select');
     caseSelect.addEventListener('change', function (e) {
-        if (caseSelect.value === "re1") {
-            transitionState(SCREENS.re1);
-        } else if (caseSelect.value === "re2") {
-            transitionState(SCREENS.re2);
-        } else if (caseSelect.value === "bo2") {
-            transitionState(SCREENS.bo2);
-        } else if (caseSelect.value === "re3") {
-            transitionState(SCREENS.re3);
+        if (caseSelect.value !== "none") {
+            transitionState(SCREENS[caseSelect.value]);
         }
     });
 
@@ -238,6 +233,19 @@ function assembleListeners() {
             p1Select.addEventListener('change', updateAll);
         }
     }
+
+    // OP2
+    {
+        let p2Select = document.getElementById('op2-phase2-event');
+        function changeAll(e) {
+            let idx = p2Select.value;
+            let event = p2Select.value === '40' ? 40 
+                      : p2Select.value === '10' ? 10
+                      : null;
+            updateOp2Values(event);
+        }
+        p2Select.addEventListener('change', changeAll);
+    }
 }
 
 function updateRe1TableValues(firm) {
@@ -367,6 +375,80 @@ function tableIter(table, cellCallback) {
     }
 }
 
+function updateOp2Values(phase2Event) {
+    let stockFair = document.getElementById('op2-stock-fair-value');
+    let stockVals = document.getElementById('op2-stock-values');
+
+    let callFair = document.getElementById('op2-call-fair-value');
+    let callVals = document.getElementById('op2-call-values');
+    
+    let putFair = document.getElementById('op2-put-fair-value');
+    let putVals = document.getElementById('op2-put-values');
+
+    let riskless = document.getElementById('op2-riskless-listing');
+
+    function fmtNum(x) {
+        return x.toFixed(3);
+    }
+
+    function setVal(ele, val) {
+        ele.innerText = fmtNum(val);
+    }
+    function setArr(ele, arr) {
+        ele.innerText = arr.toString();
+    }
+
+    if (phase2Event === null) {
+        let interest = 1.01 * 1.01;
+
+        setVal(stockFair, (5 + 2 * 20 + 80) / 4 / interest);
+        setArr(stockVals, [5, 20, 20, 80]);
+
+        setVal(callFair, (55 + 3 * 0) / 4 / interest);
+        setArr(callVals, [0, 0, 0, 55]);
+
+        setVal(putFair, (0 + 5 * 2 + 20) / 4 / interest);
+        setArr(putVals, [20, 5, 5, 0]);
+
+        let riskL1 = fmtNum(25 / interest);
+        let riskL2 = fmtNum(15 / 1.01);
+        riskless.innerHTML = `<div>(hold) $${riskL1} = 1 stock + 1 put = ${[25, 25, 25, 80].toString()}</div>
+                              <div>(exercise) $${riskL2} = 1 call + 1 put</div>`;
+    } else if (phase2Event === 40) {
+        let interest = 1.01;
+
+        setVal(stockFair, (20 + 80) / 2 / interest);
+        setArr(stockVals, [20, 80]);
+
+        setVal(callFair, (55 + 0) / 2 / interest);
+        setArr(callVals, [0, 55]);
+
+        setVal(putFair, (0, 5) / 2 / interest);
+        setArr(putVals, [5, 0]);
+
+        let riskL1 = fmtNum(80 / interest);
+        let riskL2 = fmtNum(55 / interest);
+        let riskL3 = fmtNum(15 / interest);
+        riskless.innerHTML = `<div>$${riskL1} = 1 stock + 12 puts</div>
+                              <div>$${riskL2} = 1 call + 11 puts</div>
+                              <div>$${riskL3} = -1 stock + 1 call (call price \< $15) = ${[15, 20].toString()}</div>`;
+    } else if (phase2Event === 10) {
+        let interest = 1.01;
+
+        setVal(stockFair, (5 + 20) / 2 / interest);
+        setArr(stockVals, [5, 20]);
+
+        setVal(callFair, (0 + 0) / 2 / interest);
+        setArr(callVals, [0, 0]);
+
+        setVal(putFair, (20 + 5) / 2 / interest);
+        setArr(putVals, [20, 5]);
+
+        let riskL1 = fmtNum(25 / interest);
+        riskless.innerHTML = `<div>$${riskL1} = 1 stock + 1 put</div>`;
+    }
+}
+
 function transitionState(newState) {
     for (let sName in SCREENS) {
         let screen = document.getElementById(SCREENS[sName]);
@@ -390,6 +472,8 @@ function transitionState(newState) {
     } else if (newState === SCREENS.re3) {
         fillRe3F1Tables([0, 1, 2], [0, 1, 2]);
         fillRe3F2Tables([0, 1, 2], [0, 1, 2]);
+    } else if (newState === SCREENS.op2) {
+        updateOp2Values(null);
     }
 }
 

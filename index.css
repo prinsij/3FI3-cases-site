@@ -29,6 +29,8 @@ body {
 
 .dropdown-row {
     align-items: center;
+    display: flex;
+    flex-direction: row;
 }
 
 .hidden-column-menu table tr,  .hidden-column-menu table td {

@@ -17,12 +17,13 @@
                 <option value="re2">Equity RE2</option>
                 <option value="bo2">Bonds BO2</option>
                 <option value="re3">Equity RE3</option>
+                <option value="op2">Options OP2</option>
             </optgroup>
         </select>
     </div>
     <div id="screen-re1" class="hidden-column-menu">
         <h2>ABC Corporation</h2>
-        <div style="display: flex; flex-direction: row" class="dropdown-row">
+        <div class="dropdown-row">
             <select class="form-control" title="re1 abc not phase 1" id="re1-abc-not-phase1-event">
                 <optgroup class="large-font">
                     <option value="none">...</option>
@@ -58,7 +59,7 @@
             </table>
         </div>
         <h2>CRA Corporation</h2>
-        <div style="display: flex; flex-direction: row" class="dropdown-row">
+        <div class="dropdown-row">
             <select class="form-control" title="re1 cra not phase 1" id="re1-cra-not-phase1-event">
                 <optgroup class="large-font">
                     <option value="none">...</option>
@@ -316,7 +317,7 @@
             </div>
         </div>
         <h2>Firm 2</h2>
-        <div style="display: flex; flex-direction: row" class="dropdown-row">
+        <div class="dropdown-row">
             <select class="form-control" title="re3 firm2 not phase 1" id="re3-firm2-not-phase1-event">
                 <optgroup class="large-font">
                     <option value="none">...</option>
@@ -350,6 +351,34 @@
                 <tr><td>Y</td><td></td><td></td><td></td></tr>
                 <tr><td>Z</td><td></td><td></td><td></td></tr>
             </table>
+        </div>
+    </div>
+    <div id="screen-op2" class="hidden-column-menu">
+        <h2>Option Case 2</h2>
+        <select class="form-control" title="re3 firm1 not phase 1" id="op2-phase2-event">
+            <optgroup class="large-font">
+                <option value="none">...</option>
+                <option value="40">Up to 40</option>
+                <option value="10">Down to 10</option>
+            </optgroup>
+        </select>
+        <h3>Stock</h3>
+        <div class="dropdown-row">
+            <div>Hold Value: <span id="op2-stock-fair-value"></span></div>
+            <div>Final Values: <span id="op2-stock-values"></span></div>
+        </div>
+        <h3>Call Option</h3>
+        <div class="dropdown-row">
+            <div>Hold Value: <span id="op2-call-fair-value"></span></div>
+            <div>Final Values: <span id="op2-call-values"></span></div>
+        </div>
+        <h3>Put Option</h3>
+        <div class="dropdown-row">
+            <div>Hold Value: <span id="op2-put-fair-value"></span></div>
+            <div>Final Values: <span id="op2-put-values"></span></div>
+        </div>
+        <h3>Riskless Portfolios</h3>
+        <div style="display: flex; flex-direction: column" id="op2-riskless-listing">
         </div>
     </div>
 </body>
